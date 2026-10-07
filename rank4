@@ -42,10 +42,10 @@ def package_dependency_resolver(d: dict[str, list[str]]) -> list[str]:
 def package_dependency_resolver(d):
     r = []
     while (q := [x for x, v in d.items() if not v]):
-        r += q
-        for x in q:
-            d.pop(x)
+        r += sorted(q)
+        for pack in q:
+            d.pop(pack)
             for v in d.values():
-                if x in v:
-                    v.remove(x)
+                if pack in v:
+                    v.remove(pack)
     return r
