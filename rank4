@@ -1,0 +1,24 @@
+import time
+
+
+def package_dependency_resolver(d: dict[str, list[str]]) -> list[str]:
+    heap = sorted([name for name, cnt in d.items() if len(cnt) == 0])
+    res = []
+    while heap:
+        name = heap.pop(0)
+        res.append(name)
+        d.pop(name)
+        for v in d.values():
+            if name in v:
+                v.remove(name)
+        heap.extend(sorted([name for name, cnt in d.items() if len(cnt) == 0
+                            and name not in heap]))
+    return res
+
+if __name__ == "__main__":
+    x = package_dependency_resolver({"app": ["database"],
+                                     "database": ["driver"], "driver": []})
+    print(x)
+    x = package_dependency_resolver({"web": [], "api": [], "caca": [], front": ["web"],
+                                     "back": ["api"]})
+    print(x)
