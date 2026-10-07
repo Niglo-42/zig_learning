@@ -22,3 +22,16 @@ if __name__ == "__main__":
     x = package_dependency_resolver({"web": [], "api": [], "caca": [], front": ["web"],
                                      "back": ["api"]})
     print(x)
+
+
+code plus court = 
+def package_dependency_resolver(d: dict[str, list[str]]) -> list[str]:
+    heap = sorted([name for name, cnt in d.items() if len(cnt) == 0])
+    res = []
+    while heap:
+        name = heap.pop(0)
+        res.append(name)
+        d.pop(name)
+        [v.remove(name) for v in d.values() if name in v]
+        heap = sorted([name for name, cnt in d.items() if len(cnt) == 0])
+    return res
