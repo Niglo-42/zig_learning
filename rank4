@@ -35,3 +35,17 @@ def package_dependency_resolver(d: dict[str, list[str]]) -> list[str]:
         [v.remove(name) for v in d.values() if name in v]
         heap = sorted([name for name, cnt in d.items() if len(cnt) == 0])
     return res
+
+
++++court
+
+def package_dependency_resolver(d):
+    r = []
+    while (q := [x for x, v in d.items() if not v]):
+        r += q
+        for x in q:
+            d.pop(x)
+            for v in d.values():
+                if x in v:
+                    v.remove(x)
+    return r
